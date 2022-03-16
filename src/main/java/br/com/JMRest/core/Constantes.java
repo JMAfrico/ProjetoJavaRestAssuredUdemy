@@ -1,6 +1,5 @@
 package br.com.JMRest.core;
 
-import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 
 public interface Constantes {
@@ -10,5 +9,4 @@ public interface Constantes {
 	String APP_BASE_PATH = "";
 	ContentType APP_CONTENT_TYPE = ContentType.JSON;	
 	Long MAX_TIMEOUT = 10000L;
-	LogDetail APP_LOG_DETAIL = LogDetail.ALL; 
 }
