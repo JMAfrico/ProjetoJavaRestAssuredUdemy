@@ -3,36 +3,32 @@ package br.com.JMRest.tests;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.JMRest.core.BaseTest;
-import io.restassured.RestAssured;
+import br.com.JMRest.utils.BarrigaUtils;
 
-public class BarrigaTestRefac extends BaseTest{
+public class ContasTest extends BaseTest{
 
-	@BeforeClass
-	public static void login() {	
-		System.out.println("-------EFETUANDO LOGIN-------");
-			Map<String, String> login = new HashMap<>();
-			login.put("email","joao_marcossilva@hotmail.com");
-			login.put("senha","123456");		
-			String TOKEN =
-			given()
-				.body(login)
-			.when()
-				.post("/signin")
-			.then()
-				.statusCode(200)	
-				.extract().path("token")
-			;	
-			
-			RestAssured.requestSpecification.header("Authorization", "JWT "+TOKEN);
-			RestAssured.get("/reset").then().statusCode(200);
-	}	
+//	@BeforeClass
+//	public static void login() {	
+//		System.out.println("-------EFETUANDO LOGIN-------");
+//			Map<String, String> login = new HashMap<>();
+//			login.put("email","joao_marcossilva@hotmail.com");
+//			login.put("senha","123456");	
+//			String TOKEN =
+//			given()
+//				.body(login)
+//			.when()
+//				.post("/signin")
+//			.then()
+//				.statusCode(200)	
+//				.extract().path("token")
+//			;	
+//			
+//			RestAssured.requestSpecification.header("Authorization", "JWT "+TOKEN);
+//			RestAssured.get("/reset").then().statusCode(200);
+//	}	
 	
 	@Test
 	public void deveIncluirContaComSucesso() {
@@ -53,7 +49,7 @@ public class BarrigaTestRefac extends BaseTest{
 	public void deveAlterarContaComSucesso() {	
 		System.out.println("\n<<<<Cenario: Alterar Conta>>>>\n");
 		
-		Integer CONTA_ID = getIdPeloNome("Conta para alterar");
+		Integer CONTA_ID = BarrigaUtils.getIdPeloNome("Conta para alterar");
 			
 		given()
 			.log().all()
@@ -89,7 +85,7 @@ public class BarrigaTestRefac extends BaseTest{
 	public void deveRemoverConta() {	
 		System.out.println("\n<<<<Cenario: Remover Conta>>>>\n");
 		
-		Integer CONTA_ID = getIdPeloNome("Conta mesmo nome");
+		Integer CONTA_ID = BarrigaUtils.getIdPeloNome("Conta mesmo nome");
 		
 		given()
 			.log().all()
@@ -100,10 +96,5 @@ public class BarrigaTestRefac extends BaseTest{
 			.log().all()
 			.statusCode(204)	
 		;
-	}
-	
-	public Integer getIdPeloNome(String nome) {
-		return RestAssured.get("/contas?nome="+nome).then().extract().path("id[0]");
-		
 	}
 }
